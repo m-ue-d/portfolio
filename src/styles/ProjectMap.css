@@ -1,0 +1,91 @@
+.projects{
+    background-color: #8A8A8A80;
+    height: 627px;
+    width: 100%;
+    margin-top: 14rem;
+    margin-bottom: 14rem;
+    box-shadow: 0px 10px 17.6px 0px rgba(0, 0, 0, 0.25);
+}
+
+.card{
+    position: absolute;
+    background-color: #ff880099;
+    width: 250px;
+    height: fit-content;
+    padding-bottom: 40px;
+}
+
+.subcard{
+    position: absolute;
+    width: fit-content;
+    height: auto;
+    background-color: #fab10099;
+}
+
+.subcard a{
+    color: #000;
+    width: fit-content;
+    margin: 0;
+    padding-left: 4px;
+    padding-right: 4px;
+}
+
+.card h2{
+    position: relative;
+    width: fit-content;
+    left: 20px;
+    color: #000;
+    text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    font-size: 1.5rem;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+
+.card p{
+    margin: 0;
+    position: relative;
+    width: fit-content;
+    left: 20px;
+    color: #000;
+    text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    font-size: 1.2rem;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+
+.card ul{
+    list-style-type: square;
+}
+
+.card li{
+    text-align: start;
+    max-width: 170px;
+    margin: 0;
+    position: relative;
+    width: fit-content;
+    left: 40px;
+    color: #000;
+    text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    font-size: 1rem;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+
+.card .squavy{
+    position: absolute;
+    width: 160px;
+    height: auto;
+    right: -120px;
+    bottom: -50px;
+}
+
+.card .heast{
+    position: absolute;
+    width: 200px;
+    height: auto;
+    right: -120px;
+    bottom: -50px;
+}

@@ -1,0 +1,58 @@
+@font-face {
+  font-family: "VT323-Regular";
+  src: url("src/assets/fonts/VT323-Regular.ttf") format("truetype");
+}
+html{
+  background-color: #f0f2ef;
+}
+
+*{
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  color: #000000;
+  font-family: Gordita, Roboto, Oxygen, Ubuntu, Cantarell,
+    'VT323-Regular', 'Open Sans', 'Helvetica Neue', sans-serif;
+    font-size: 1.2em;
+}
+
+a {
+  margin-right: 1rem;
+  color: #ff8800;
+  filter: drop-shadow(#fab100 2px 2px 6px);
+}
+
+main {
+  text-align: center;
+}
+
+h1 {
+  text-transform: uppercase;
+  width: fit-content;
+  font-size: 8rem;
+  font-weight: 100;
+  line-height: 1.1;
+  margin: 8rem auto auto auto;
+  max-width: 14rem;
+  text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+p {
+  max-width: 14rem;
+  margin: auto auto 2rem auto;
+  line-height: 1.35;
+  text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+@media (min-width: 480px) {
+  h1 {
+    max-width: none;
+  }
+
+  p {
+    max-width: none;
+  }
+}
