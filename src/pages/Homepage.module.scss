@@ -1,0 +1,65 @@
+*::selection {
+    color: black;
+    background: rgb(255, 127, 76);
+    -webkit-text-fill-color: black;
+}
+
+.mainPage {
+    background: linear-gradient(#f9faff 0%, #fffcf0 100%);
+}
+
+.animatedTitle {
+    position: relative;
+    margin-bottom: 20rem;
+    margin-top: 8rem;
+    filter: drop-shadow(0 0 0.75rem rgb(220, 90, 20));  
+
+    h1, p {
+        width: fit-content;
+        margin: 0;
+        position: relative;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+    
+    h1 {
+        font-size: 14rem;
+        background: rgb(255, 127, 76);
+        background: linear-gradient(to right, rgb(255, 127, 76) 0%, crimson 100%);
+        background-clip: text;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        filter: drop-shadow(0 0 0.20rem rgb(232, 223, 255));
+        cursor: pointer;
+    }
+}
+
+.introduction {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+
+    p {
+        font-size: 4rem;
+        filter: drop-shadow(0 0 0.75rem rgba(0, 0, 0, 0.624));  
+    }
+}
+
+.gradient {
+    background: linear-gradient(#fffcf0 0%, #eeead9 4%, #64635d 24%, #2e2d2c 40%, #1e1e1e 50%);
+}
+
+p {
+    position: relative;
+    margin: 0;
+    font-size: 2rem;
+    transform: translateY(-100px);
+    width: fit-content;
+    cursor: pointer;
+}
+
+img {
+    cursor: pointer;
+}
