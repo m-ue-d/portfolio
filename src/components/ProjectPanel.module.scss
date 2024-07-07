@@ -5,10 +5,39 @@
         right: 16rem;
         top: -20rem;
 
-        font-size: 9rem;
+        font-size: 8.1rem;
+        
+        filter: drop-shadow(0 0 0.6rem rgba(0, 0, 0, 0.5));
+        transform: rotate(10deg);
     }
 }
 
 .projects {
-    height: 35rem;
+    height: 100rem;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    
+    transform: rotateZ(2deg);
+    
+    
+    li {
+        position: absolute;
+        transform-origin: center center;
+        transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+    
+    li:hover { 
+        filter: drop-shadow(0 0 0.2rem #fab100A7);
+    }
+
+    img {
+        width: 10rem;
+        height: auto;
+    }
+    
+    perspective: 10rem;
+    transform-style: preserve-3d;
 }

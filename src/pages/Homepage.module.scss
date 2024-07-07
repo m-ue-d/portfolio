@@ -1,4 +1,4 @@
-*::selection {
+::selection {
     color: black;
     background: rgb(255, 127, 76);
     -webkit-text-fill-color: black;
@@ -11,7 +11,7 @@
 .animatedTitle {
     position: relative;
     margin-bottom: 20rem;
-    margin-top: 8rem;
+    padding-top: 8rem;
     filter: drop-shadow(0 0 0.75rem rgb(220, 90, 20));  
 
     h1, p {
@@ -63,4 +63,8 @@ p {
 
 img {
     cursor: pointer;
+}
+
+li {
+    list-style: none;
 }
