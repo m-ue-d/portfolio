@@ -1,32 +1,50 @@
 import styles from './ProjectPanel.module.scss';
 import HeastLogo from '../assets/logo.png';
 import { Project } from '../model/project';
-import { For, createSignal, onCleanup, onMount } from 'solid-js';
+import { For, Setter, createSignal, onCleanup, onMount } from 'solid-js';
 
-export default function ProjectPanel(){
+//the following 17 lines of code were taken from https://github.com/FabianHummel/Retro-Portfolio/commit/3374903ef0ef0ddbd761be5fbbdb80dbfe3c0710; thank you Fabi <3
+const username = "m-ue-d";
+const endpoint = "https://api.github.com/users";
 
-    const [projects, setProjects] = createSignal([
-        new Project("Heast Msg"),
-        new Project("Squavy"),
-        new Project("Test1"),
-        new Project("Test2"),
-        new Project("Test3"),
-        new Project("Test4"),
-        new Project("Test5"),
-        new Project("Test6"),
-        new Project("Test7"),
-        new Project("Test8"),
-        new Project("Test9"),
-        new Project("Test10"),
-    ]);
+async function fetchUser(name: string) {
+    const response = await fetch(`${endpoint}/${name}`);
+    return await response.json();
+}
+
+async function fetchRepos() {
+    const response = await fetch(`${endpoint}/${username}/repos`);
+    return await response.json();
+}
+
+async function fetchStarred() {
+    const response = await fetch(`${endpoint}/${username}/starred`);
+    return await response.json();
+}
+
+let user;
+let repos: any[];
+let starred;
+
+user = await fetchUser(username);
+repos = await fetchRepos();
+repos = repos.filter((r: { fork: any; }) => !r.fork);
+starred = await fetchStarred();
+
+export default function ProjectPanel() {
+
+    const [projects, setProjects] = createSignal<Project[]>([]);
+
+    const [selectedProject, setSelectedProject] = createSignal<Project>();
 
     const calculatePosition = (index: number, total: number, time: number) => {
+        const sizeMult = 0.34;
         const angle = (index / total) * 2 * Math.PI + time / 100000;
         const radius = 30;
-        const x = radius * Math.cos(angle) * 2;
-        const y = radius * Math.sin(angle) * 0.4;
+        const x = sizeMult * radius * Math.cos(angle) * 2;
+        const y = sizeMult * radius * Math.sin(angle) * 0.4;
         const zMult = 5;
-        const z = Math.sin(angle) * zMult;
+        const z = sizeMult * Math.sin(angle) * zMult;
 
         const maxZ = 2 * zMult;
         const minOpacity = 0.1;
@@ -38,6 +56,7 @@ export default function ProjectPanel(){
     let inter = 0;
 
     onMount(() => {
+        setProjects(repos.map(repo => new Project(repo.name)));
         inter = setInterval(() => {
             const time = Date.now();
             setProjects(prevProjects => prevProjects.map(project => ({ ...project, time })));
@@ -50,15 +69,21 @@ export default function ProjectPanel(){
 
     return <div class={styles.container}>
         <h2>MY PROJECTS</h2>
-        <ul class={styles.projects}>
-            <For each={projects()}>{(project,idx) => {
-                const position = calculatePosition(idx(), projects().length, Date.now());
-                return <li style={{ opacity: position.opacity, 
-                    transform: `translate3d(${position.x}rem, ${position.y}rem, ${position.z}rem)` }}>
-                        <img src={HeastLogo} alt="Test with Heast logo"/>
-                    </li>
-                }}
-            </For>
-        </ul>
+        <div class={styles.wrapper}>
+            <ul class={styles.projects}>
+                <For each={projects()}>{(project,idx) => {
+                    const position = calculatePosition(idx(), projects().length, Date.now());
+                    return <li 
+                        onClick={()=>{
+                            setSelectedProject(project);
+                        }} 
+                        style={{ opacity: position.opacity, transform: `translate3d(${position.x}em, ${position.y}em, ${position.z}em)` }}>
+                            <img src={HeastLogo} alt="Test with Heast logo"/>
+                            <p style={{color: "white"}}>{repos[idx()]?.name}</p>
+                        </li>
+                    }}
+                </For>
+            </ul>
+        </div>
     </div>;
 }
