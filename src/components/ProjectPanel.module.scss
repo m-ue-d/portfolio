@@ -18,6 +18,7 @@
 
 .projects {
     height: 100rem;
+    width: 102%;
     display: flex;
     flex-direction: row;
     justify-content: center;
@@ -29,9 +30,17 @@
     
     
     li {
+        user-drag: none;
+        -webkit-user-drag: none;
+        user-select: none;
+        -moz-user-select: none;
+        -khtml-user-select: none;
+        -webkit-user-select: none;
+        -o-user-select: none;
+
         position: absolute;
         transform-origin: center center;
-        transition: opacity 0.5s ease, transform 0.5s ease;
+        transition: opacity 0.5s ease, transform 0.08s ease;
         cursor: pointer;
     }
     
@@ -39,11 +48,90 @@
         filter: drop-shadow(0 0 0.2rem #fab100A7);
     }
 
-    img {
+    .img {
         width: 4em;
         height: auto;
+    }
+
+    .noImg {
+        background: #ff88389a;
+        border-radius: 0.6rem;
+        width: 4em;
+        height: 4em;
+        
+        div {
+            display: flex;
+            height: 100%;
+            width: 100%;
+            text-align: center;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9em;
+            word-break: break-word;
+        }
     }
     
     perspective: 10rem;
     transform-style: preserve-3d;
+}
+
+.selectedProject {
+    -webkit-user-drag: none;
+    user-select: none;
+    -moz-user-select: none;
+    -khtml-user-select: none;
+    -webkit-user-select: none;
+    -o-user-select: none;
+
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    font-size: 2rem;
+    transform: translate(-50%, -50%);
+    background: #fff9ec;
+    border-radius: 0.2rem;
+    width: 20%;
+    filter: drop-shadow(0 0 0.25rem rgba(255, 249, 249, 0.727));  
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    min-height: 14rem;
+
+    &:hover {
+        cursor: pointer;
+    }
+
+    .selectedHead {
+        display: flex;
+        align-items: center;  // Vertically centers the logo with the text
+        padding: 0.6rem 0rem 0.8rem 0.6rem;
+        border-bottom: rgba(245, 172, 172, 0.623) 0.2rem dashed;
+
+        .logoContainer {
+            width: 3.5rem; // Adjust the width of the logo
+            height: 3.5rem; // Ensures that the logo is square, you can adjust the size as needed
+            margin-right: 0.8rem; // Adds space between the logo and the text
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+    
+            svg {
+                width: 100%; // Ensures the SVG scales to fit the container
+                height: 100%; // Ensures the SVG scales to fit the container
+            }
+        }
+    }
+
+    .selectedBody {
+        padding: 0.6rem 0rem 0.8rem 0.6rem;
+        
+        .language {
+            color: rgb(138, 42, 42);
+            filter: drop-shadow(0 0 0.15rem rgba(255, 209, 209, 0.727));  
+            text-align: right;
+            width: 95%;
+            font-size: 1.5rem;
+        }
+    }
 }

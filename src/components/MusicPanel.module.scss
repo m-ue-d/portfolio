@@ -1,0 +1,15 @@
+.container {
+    position: relative;
+    margin-top: 10rem;
+    h2 {
+        color: #fff0e1;
+        position: absolute;
+        left: 16rem;
+        top: -20rem;
+
+        font-size: 8.1rem;
+        
+        filter: drop-shadow(0 0 0.6rem rgba(0, 0, 0, 0.5));
+        transform: rotate(-10deg);
+    }
+}
