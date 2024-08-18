@@ -3,23 +3,35 @@ import HeastLogo from '../assets/logo.png';
 import { Project } from '../model/project';
 import { For, Setter, createSignal, onCleanup, onMount } from 'solid-js';
 
-//the following 17 lines of code were taken from https://github.com/FabianHummel/Retro-Portfolio/commit/3374903ef0ef0ddbd761be5fbbdb80dbfe3c0710; thank you Fabi <3
+//the following 29 lines of code were mostly taken from https://github.com/FabianHummel/Retro-Portfolio/commit/3374903ef0ef0ddbd761be5fbbdb80dbfe3c0710; thank you Fabi <3
 const username = "m-ue-d";
 const endpoint = "https://api.github.com/users";
 
 async function fetchUser(name: string) {
-    const response = await fetch(`${endpoint}/${name}`);
-    return await response.json();
+    const user = localStorage.getItem("user");
+    if(user)
+        return JSON.parse(user);
+    const response = await (await fetch(`${endpoint}/${name}`)).json();
+    localStorage.setItem("user", JSON.stringify(response));
+    return response;
 }
 
 async function fetchRepos() {
-    const response = await fetch(`${endpoint}/${username}/repos`);
-    return await response.json();
+    const repos = localStorage.getItem("repos");
+    if(repos)
+        return JSON.parse(repos);
+    const response = await (await fetch(`${endpoint}/${username}/repos`)).json();
+    localStorage.setItem("repos", JSON.stringify(response));
+    return response;
 }
 
 async function fetchStarred() {
-    const response = await fetch(`${endpoint}/${username}/starred`);
-    return await response.json();
+    const starred = localStorage.getItem("starred");
+    if(starred)
+        return JSON.parse(starred);
+    const response = await (await fetch(`${endpoint}/${username}/starred`)).json();
+    localStorage.setItem("starred", JSON.stringify(response));
+    return response;
 }
 
 let user;
@@ -35,7 +47,7 @@ export default function ProjectPanel() {
 
     const [projects, setProjects] = createSignal<Project[]>([]);
 
-    const [selectedProject, setSelectedProject] = createSignal<Project>();
+    const [selectedProject, setSelectedProject] = createSignal<Project|null>(null);
 
     const calculatePosition = (index: number, total: number, time: number) => {
         const sizeMult = 0.34;
@@ -74,10 +86,16 @@ export default function ProjectPanel() {
                 <For each={projects()}>{(project,idx) => {
                     const position = calculatePosition(idx(), projects().length, Date.now());
                     return <li 
-                        onClick={()=>{
+                        onMouseDown={(e)=>{
+                            if(e.shiftKey) {    //TODO: JUST FOR TESTING
+                                setSelectedProject(null);
+                                return;
+                            }
+                            console.log(`pos: x=${position.x}, y=${position.y}, z=${position.z}`);
+                            //TODO: let project fly to the middle and back if clicked again =)
                             setSelectedProject(project);
                         }} 
-                        style={{ opacity: position.opacity, transform: `translate3d(${position.x}em, ${position.y}em, ${position.z}em)` }}>
+                        style={{ opacity: selectedProject()?.name===project.name? "0" : position.opacity, transform: `translate3d(${position.x}em, ${position.y}em, ${position.z}em)` }}>
                             <img src={HeastLogo} alt="Test with Heast logo"/>
                             <p style={{color: "white"}}>{repos[idx()]?.name}</p>
                         </li>
