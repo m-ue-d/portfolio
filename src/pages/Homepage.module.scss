@@ -40,17 +40,50 @@
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    overflow: hidden;
-    margin-bottom: 20rem;
+    overflow: visible;
+    margin-bottom: 45rem;
 
     p {
         font-size: 4rem;
-        filter: drop-shadow(0 0 0.75rem rgba(0, 0, 0, 0.624));  
+        margin-top: 10rem;
+        text-shadow: 0.2rem 0.1rem 0.75rem rgba(0, 0, 0, 0.624);
     }
 }
 
 .gradient {
     background: linear-gradient(#fffcf0 0%, #eeead9 4%, #64635d 24%, #2e2d2c 40%, #1e1e1e 50%);
+}
+
+.imgWrapper {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+
+    justify-content: space-between;
+    align-items: center;
+    overflow: visible;
+}
+
+.hoverWrapper {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: 35rem;
+
+    justify-content: space-between;
+    align-items: center;
+
+    li {
+        margin-bottom: 2rem;
+    }
+
+    li:nth-child(even) {
+        rotate: 2deg;
+    }
+    
+    li:nth-child(odd) {
+        rotate: -2deg;
+    }
 }
 
 p {
@@ -63,7 +96,12 @@ p {
 }
 
 img {
+    position: relative;
     cursor: pointer;
+    border-radius: 50%;
+    filter: drop-shadow(0 0 1rem #5c4100b8);
+    margin: 2rem;
+    z-index: 5;
 }
 
 li {
