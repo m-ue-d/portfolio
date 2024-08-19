@@ -28,6 +28,9 @@
     
     transform: rotateZ(2deg);
     
+    * {
+        -webkit-tap-highlight-color: transparent;
+    }
     
     li {
         user-drag: none;
@@ -55,6 +58,9 @@
 
     .noImg {
         background: #ff88389a;
+        
+        background: rgb(255, 127, 76);
+        background: linear-gradient(45deg, rgba(255, 127, 76, 0.75) 0%, rgba(220, 20, 60, 0.75) 100%);
         border-radius: 0.6rem;
         width: 4em;
         height: 4em;
@@ -87,7 +93,6 @@
     top: 50%;
     left: 50%;
     font-size: 2rem;
-    transform: translate(-50%, -50%);
     background: #fff9ec;
     border-radius: 0.2rem;
     width: 20%;
@@ -96,6 +101,20 @@
     display: flex;
     flex-direction: column;
     min-height: 14rem;
+    
+    transform: translate(-50%, -50%) scale(0.95);
+    opacity: 0;
+    transition: opacity 1s ease, transform 1s ease;
+
+    &.enter {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1);
+    }
+
+    &.leave {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(0.95);
+    }
 
     &:hover {
         cursor: pointer;

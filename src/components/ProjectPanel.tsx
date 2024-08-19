@@ -74,9 +74,11 @@ starred = await fetchStarred();
 export default function ProjectPanel() {
     const [projects, setProjects] = createSignal<Project[]>([]);
     const [selectedProject, setSelectedProject] = createSignal<Project|null>(null);
+    let selectedRef!: HTMLDivElement;
+    const [animationClass, setAnimationClass] = createSignal("");
     let animationFrame: number;
 
-    const calculatePosition = (index: number, total: number, time: number) => {
+    const calculatePosition = (index: number, total: number, time: number, opac: number) => {
         const sizeMult = 0.34;
         const angle = (index / total) * 2 * Math.PI + time / 40000;
         const radius = 30;
@@ -86,8 +88,8 @@ export default function ProjectPanel() {
         const z = sizeMult * Math.sin(angle) * zMult;
 
         const maxZ = 2 * zMult;
-        const minOpacity = 0.1;
-        const maxOpacity = 1.0;
+        const minOpacity = 0.1; 
+        const maxOpacity = opac;
         const opacity = minOpacity + (maxOpacity - minOpacity) * ((z + zMult) / maxZ);
         return { x, y, z, opacity };
     };
@@ -97,7 +99,7 @@ export default function ProjectPanel() {
         const projectElements = document.querySelectorAll(`.${styles.projects} li`);
         projectElements.forEach((el, idx) => {
             const element = el as HTMLElement;
-            const position = calculatePosition(idx, projectElements.length, time);
+            const position = calculatePosition(idx, projectElements.length, time, +element.getAttribute("data-opacity")!);
             element.style.transform = `translate3d(${position.x}em, ${position.y}em, ${position.z}em)`;
             element.style.opacity = position.opacity.toString();
         });
@@ -116,8 +118,17 @@ export default function ProjectPanel() {
     return (
         <div class={styles.container}>
             <h2>MY PROJECTS</h2>
+            {/* Currently Selected Project */}
             <Show when={selectedProject()}>
-                <div class={styles.selectedProject} onClick={() => setSelectedProject(null)}>
+                <div class={`${styles.selectedProject} ${styles[animationClass()]}`} ref={selectedRef} onClick={async (e) => {
+                        e.stopPropagation();
+                        selectedRef.style.pointerEvents = "none";
+                        setAnimationClass("leave");
+                        setTimeout(() => {
+                            if(animationClass() === "leave")
+                                setSelectedProject(null);
+                        }, 1000);
+                    }}>
                     <div class={styles.selectedHead}>
                         <Show when={selectedProject()?.logo?.startsWith("<")}>
                             <div class={styles.logoContainer} innerHTML={selectedProject()?.logo} />
@@ -130,17 +141,21 @@ export default function ProjectPanel() {
                     </div>
                 </div>
             </Show>
+            
+            {/* All Projects */}
             <div class={styles.wrapper}>
                 <ul class={styles.projects}>
                     <For each={projects()}>{(project, idx) => {
-                        const position = calculatePosition(idx(), projects().length, Date.now());
                         return <li 
                             onMouseDown={(e) => {
                                 e.stopPropagation();
                                 setSelectedProject(project);
-                            }} 
-                            style={{ opacity: selectedProject()?.repo.name === project.repo.name ? "0.08" : "1" }}>
-                                {project.logo?.startsWith("<")? <div class={styles.img} innerHTML={project?.logo}></div> : <div class={styles.noImg}><div>{project.repo.name}</div></div>}
+                                selectedRef.style.pointerEvents = "auto";
+                                setTimeout(() => {
+                                    setAnimationClass("enter");
+                                }, 100);
+                            }} data-opacity={selectedProject()?.repo.name === project.repo.name ? 0.005 : 1} >
+                                {project.logo?.startsWith("<")? <div class={styles.img} innerHTML={project?.logo}/> : <div class={styles.noImg}><div>{project.repo.name}</div></div>}
                             </li>
                         }}
                     </For>
