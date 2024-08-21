@@ -7,6 +7,7 @@
 .mainPage {
     background: linear-gradient(#f9faff 0%, #fffcf0 100%);
     font-size: 2cqw;
+    overflow: hidden;
 }
 
 .animatedTitle {
@@ -31,17 +32,18 @@
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         filter: drop-shadow(0 0 0.20rem rgb(232, 223, 255));
-        cursor: pointer;
     }
 }
 
 .introduction {
     display: flex;
     flex-direction: row;
+    flex-wrap: wrap-reverse;
     justify-content: center;
     align-items: center;
     overflow: visible;
     margin-bottom: 45rem;
+    text-align: center;
 
     p {
         font-size: 4rem;
@@ -92,7 +94,6 @@ p {
     font-size: 2rem;
     transform: translateY(-100px);
     width: fit-content;
-    cursor: pointer;
 }
 
 img {
@@ -102,6 +103,8 @@ img {
     filter: drop-shadow(0 0 1rem #5c4100b8);
     margin: 2rem;
     z-index: 5;
+    width: 90%;
+    height: auto;
 }
 
 li {

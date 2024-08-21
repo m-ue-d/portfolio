@@ -11,7 +11,6 @@ export interface HoverLinkProps {
 export default function HoverLink(props: HoverLinkProps) {
 
     return <div class={styles.container} data-show={props.active()}>
-        <img src={props.imageUrl} />
-        <a href={props.href}>{props.name}</a>
+        <a href={props.href}><img src={props.imageUrl} />{props.name}</a>
     </div>
 }

@@ -43,12 +43,8 @@
 
         position: absolute;
         transform-origin: center center;
-        transition: opacity 0.5s ease, transform 0.08s ease;
+        transition: opacity 0.3s ease, transform 0.08s ease;
         cursor: pointer;
-    }
-    
-    li[data-highlight] { 
-        filter: drop-shadow(0 0 0.2rem #fab100A7);
     }
 
     .img {
