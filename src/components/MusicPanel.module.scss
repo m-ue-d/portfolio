@@ -13,3 +13,29 @@
         transform: rotate(-10deg);
     }
 }
+
+.songs {
+
+    .links {
+        font-size: 1.3rem;
+        color: #cccccc;
+        line-break: anywhere;
+        word-break: normal;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        font-weight: 100;
+    }
+
+    iframe {
+        width: 35%;
+        height: 10rem;
+        border-radius: 1rem;
+        border: none;
+    }
+    
+    a {
+        color: #cccccc;
+        text-decoration: none;
+    }
+}

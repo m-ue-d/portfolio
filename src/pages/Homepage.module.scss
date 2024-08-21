@@ -38,7 +38,7 @@
 .introduction {
     display: flex;
     flex-direction: row;
-    flex-wrap: wrap-reverse;
+    flex-wrap: wrap;
     justify-content: center;
     align-items: center;
     overflow: visible;
@@ -47,7 +47,7 @@
 
     p {
         font-size: 4rem;
-        margin-top: 10rem;
+        margin-bottom: 7rem;
         text-shadow: 0.2rem 0.1rem 0.75rem rgba(0, 0, 0, 0.624);
     }
 }
@@ -69,8 +69,6 @@
 .hoverWrapper {
     display: flex;
     flex-direction: column;
-    position: absolute;
-    top: 35rem;
 
     justify-content: space-between;
     align-items: center;

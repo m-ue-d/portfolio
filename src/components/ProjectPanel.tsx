@@ -154,7 +154,7 @@ export default function ProjectPanel() {
                                 setTimeout(() => {
                                     setAnimationClass("enter");
                                 }, 100);
-                            }} data-opacity={selectedProject()?.repo.name === project.repo.name ? 0.005 : 1} >
+                            }} data-opacity={selectedProject()?.repo.name === project.repo.name && animationClass() != "leave" ? 0.005 : 1} >
                                 {project.logo?.startsWith("<")? <div class={styles.img} innerHTML={project?.logo}/> : <div class={styles.noImg}><div>{project.repo.name}</div></div>}
                             </li>
                         }}

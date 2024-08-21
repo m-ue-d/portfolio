@@ -52,7 +52,7 @@ export default function Homepage(){
             <p>Software Engineer and Music Producer</p>
             <div 
                 class={styles.imgWrapper} 
-                ref={el => imgWrapperRef = el}
+                ref={imgWrapperRef}
             >
                 <img draggable="false" src={logo} alt="My Logo" />
                 <ul class={styles.hoverWrapper}>
