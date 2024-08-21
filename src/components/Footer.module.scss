@@ -10,6 +10,16 @@
     align-items: center;
 }
 
+.friends {
+    color: rgb(18, 18, 18);
+    text-decoration: underline;
+    font-size: 2rem;
+    letter-spacing: -0.14rem;
+    padding: 1rem;
+    
+    filter: drop-shadow(0 0 0.2rem rgba(0, 0, 0, 0.55));  
+}
+
 .copyright {
     font-size: 2rem;
     letter-spacing: -0.14rem;

@@ -1,7 +1,6 @@
 import styles from './Homepage.module.scss';
 import MusicPanel from '../components/MusicPanel';
 import ProjectPanel from '../components/ProjectPanel';
-import { A } from '@solidjs/router';
 import logo from '../assets/logo.png';
 import Footer from '../components/Footer';
 import HoverLink from '../components/HoverLink';
@@ -27,7 +26,7 @@ export default function Homepage(){
             {
                 root: null,
                 rootMargin: '0px',
-                threshold: 0.8
+                threshold: 0.66
             }
         );
 
@@ -65,7 +64,6 @@ export default function Homepage(){
         <div class={styles.gradient}>
             <ProjectPanel></ProjectPanel>
             <MusicPanel></MusicPanel>
-            <A href="/friends">Friends</A>
         </div>
         <Footer></Footer>
     </div>
