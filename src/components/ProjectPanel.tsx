@@ -37,12 +37,15 @@ async function fetchRepoLogos(repos: any[]) {
             logos[repo.name] = logo;
         } else {
             try {
-                const response = await (await fetch(`${repoEndpoint}/${username}/${repo.name}/contents/logo.svg`, {
+                let response = await (await fetch(`${repoEndpoint}/${username}/${repo.name}/contents/logo.svg`, {
                     headers: {
                         'Accept': 'application/vnd.github.v3.raw',
                         'Content-Type': 'application/json',
                     },
                 })).text();
+                if(response.includes('"message": "Not Found"') && await (await fetch(`${repoEndpoint}/${username}/${repo.name}/contents/logo.png`, {headers: {'Accept': 'application/vnd.github.v3.raw','Content-Type': 'application/json',},})).text()){
+                    response = `https://github.com/${username}/${repo.name}/blob/${repo.default_branch}/logo.png?raw=true`;
+                }
                 localStorage.setItem(`github-${repo.name}-logo`, response);
                 logos[repo.name] = response;
             } catch (error) {
@@ -178,7 +181,9 @@ export default function ProjectPanel() {
                                         setAnimationClass("enter");
                                     }, 100);
                                 }} data-opacity={selectedProject()?.repo.name === project.repo.name && animationClass() != "leave" ? 0.005 : 1} >
-                                    {project.logo?.startsWith("<")? <div class={styles.img} innerHTML={project?.logo}/> : <div class={styles.noImg}><div>{project.repo.name}</div></div>}
+                                    {project.logo?.startsWith("<") && <div class={styles.img} innerHTML={project?.logo}/>}
+                                    {project.logo?.startsWith("https") && <img class={styles.logoContainer} src={project.logo}></img>}
+                                    {project.logo?.includes('"message": "Not Found"') && <div class={styles.noImg}><div>{project.repo.name}</div></div>}
                                 </li>
                             }}
                     </For>
