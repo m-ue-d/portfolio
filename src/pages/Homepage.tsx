@@ -5,8 +5,6 @@ import logo from '../assets/logo.png';
 import Footer from '../components/Footer';
 import HoverLink from '../components/HoverLink';
 import { createSignal, onCleanup, onMount } from 'solid-js';
-import SoundCloud from "../assets/soundcloud-svgrepo-com.png";
-import Github from "../assets/github-mark.png";
 
 export default function Homepage(){
     const [showLinks, setShowLinks] = createSignal(false);
@@ -54,8 +52,8 @@ export default function Homepage(){
                 ref={imgWrapperRef}>
                 <img draggable="false" src={logo} alt="My Logo" />
                 <ul class={styles.hoverWrapper}>
-                    <li><HoverLink imageUrl={Github} active={showLinks()} href="https://github.com/m-ue-d" name="github/m-ue-d"/></li>
-                    <li><HoverLink imageUrl={SoundCloud} active={showLinks()} href="https://soundcloud.com/m-ue-d" name="soundcloud/m-ue-d"/></li>
+                    <li><HoverLink imageUrl="../assets/github-mark.png" active={showLinks()} href="https://github.com/m-ue-d" name="github/m-ue-d"/></li>
+                    <li><HoverLink imageUrl="../assets/soundcloud-svgrepo-com.png" active={showLinks()} href="https://soundcloud.com/m-ue-d" name="soundcloud/m-ue-d"/></li>
                 </ul>
             </div>
         </div>
