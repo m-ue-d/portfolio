@@ -1,6 +1,6 @@
 @font-face {
   font-family: "VT323-Regular";
-  src: url("src/assets/fonts/VT323-Regular.ttf") format("truetype");
+  src: url("$fonts/VT323-Regular.ttf") format("truetype");
 }
 
 body {
