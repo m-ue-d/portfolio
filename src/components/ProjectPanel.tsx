@@ -113,7 +113,7 @@ export default function ProjectPanel() {
         const observer = new IntersectionObserver(
             (entries) => {
                 entries.forEach(entry => {
-                    if (entry.isIntersecting) {
+                    if (selectedProject() && entry.isIntersecting) {
                         setAnimationClass("enter");
                     } else {
                         setAnimationClass("leave");
