@@ -63,12 +63,13 @@ export default function ProjectPanel() {
     let selectedRef!: HTMLDivElement;
     const [animationClass, setAnimationClass] = createSignal("");
     let animationFrame: number;
+    let projectsWrapperRef!: HTMLDivElement;
 
     const calculatePosition = (index: number, total: number, time: number, opac: number) => {
         const sizeMult = 0.34;
         const angle = (index / total) * 2 * Math.PI + time / (1000 * projects().length);
         const radius = 30;
-        const xMult = screen.width<=700? 1.2 : 2;
+        const xMult = 2;
         const yMult = screen.width<=1200? 2 : 0.4;
         const zMult = 5;
         const x = sizeMult * radius * Math.cos(angle) * xMult;
@@ -83,6 +84,16 @@ export default function ProjectPanel() {
     };
 
     const animate = () => {
+        if(screen.width <= 700){
+            const projectElements = document.querySelectorAll(`.${styles.projects} li`);
+            projectElements.forEach((el, idx) => {
+                const element = el as HTMLElement;
+                element.style.transform = `none`;
+                element.style.opacity = "1";
+            });
+            animationFrame = requestAnimationFrame(animate);
+            return;
+        }
         const time = Date.now();
         const projectElements = document.querySelectorAll(`.${styles.projects} li`);
         projectElements.forEach((el, idx) => {
@@ -97,10 +108,36 @@ export default function ProjectPanel() {
     onMount(() => {
         setProjects(repos.map(repo => new Project(repo, logos[repo.name])));
         animationFrame = requestAnimationFrame(animate);
-    });
 
-    onCleanup(() => {
-        cancelAnimationFrame(animationFrame);
+
+        const observer = new IntersectionObserver(
+            (entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        setAnimationClass("enter");
+                    } else {
+                        setAnimationClass("leave");
+                    }
+                });
+            },
+            {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.66
+            }
+        );
+        if (projectsWrapperRef) {
+            observer.observe(projectsWrapperRef);
+        }
+
+        onCleanup(() => {
+            cancelAnimationFrame(animationFrame);
+
+
+            if (projectsWrapperRef) {
+                observer.unobserve(projectsWrapperRef);
+            }
+        });
     });
 
     return (
@@ -128,7 +165,7 @@ export default function ProjectPanel() {
             </Show>
             
             {/* All Projects */}
-            <div class={styles.wrapper}>
+            <div class={styles.wrapper} ref={projectsWrapperRef}>
                 <ul class={styles.projects}>
                     <For each={projects()}>{(project, idx) => {
                         if(project.repo.topics.includes("m-ue-d"))

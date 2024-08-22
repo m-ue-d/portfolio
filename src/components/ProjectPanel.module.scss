@@ -32,7 +32,7 @@
     transform: rotateZ(2deg);
     
     * {
-        -webkit-tap-highlight-color: transparent;
+        -webkit-tap-highlight-color: #ff88000a;
     }
     
     li {
@@ -91,7 +91,7 @@
     font-size: 2rem;
     background: #fff9ec;
     border-radius: 0.2rem;
-    width: 20%;
+    width: 40rem;
     filter: drop-shadow(0 0 0.25rem rgba(255, 249, 249, 0.727));  
     z-index: 1;
     display: flex;
@@ -110,6 +110,11 @@
     &.leave {
         opacity: 0;
         transform: translate(-50%, -50%) scale(0.95);
+
+        a {
+            pointer-events: none;
+            touch-action: none;
+        }
     }
 
     &:hover {
@@ -167,5 +172,30 @@
 @media (max-width: $mediaMinWidth) {
     .projectH2 {
         font-size: 20vw !important;
+        top: -25vw !important;
+    }
+
+    .projects {
+        margin-top: 25vw;
+        margin-bottom: 25vw;
+        transform: none !important;
+        display: flex;
+        flex-direction: column;
+        gap: 5vw;
+        height: auto !important;
+
+        & > * {
+            position: static !important;
+            width: 50vw !important;
+
+            * {
+                width: 50vw !important;
+            }
+        }
+    }
+
+    .selectedProject {
+        width: 80vw !important;
+        position: fixed !important;
     }
 }

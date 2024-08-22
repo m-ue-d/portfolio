@@ -1,4 +1,5 @@
 $mediaMaxWidth: 1600px;
+$mediaMidWidth: 1524px;
 $mediaMinWidth: 700px;
 
 ::selection {
@@ -101,6 +102,7 @@ p {
 }
 
 img {
+    -webkit-tap-highlight-color: #ff88000a;
     position: relative;
     cursor: pointer;
     border-radius: 50%;
@@ -115,9 +117,17 @@ li {
     list-style: none;
 }
 
-@media (max-width: 1600px) {
+@media (max-width: $mediaMaxWidth) {
     h2 {
         white-space: nowrap;
         text-wrap: nowrap;
+    }
+}
+
+@media (max-width: $mediaMidWidth) {
+    .introduction {
+        p {
+            margin-bottom: 0 !important;
+        }
     }
 }
