@@ -1,4 +1,3 @@
-import { Accessor, Show } from "solid-js";
 import styles from "./HoverLink.module.scss";
 
 export interface HoverLinkProps {

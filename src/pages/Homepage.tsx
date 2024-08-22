@@ -5,8 +5,8 @@ import logo from '../assets/logo.png';
 import Footer from '../components/Footer';
 import HoverLink from '../components/HoverLink';
 import { createSignal, onCleanup, onMount } from 'solid-js';
-import Github from "../assets/github-mark.svg";
-import SoundCloud from "../assets/soundcloud-svgrepo-com.svg";
+import SoundCloud from "../assets/soundcloud-svgrepo-com.png";
+import Github from "../assets/github-mark.png";
 
 export default function Homepage(){
     const [showLinks, setShowLinks] = createSignal(false);
