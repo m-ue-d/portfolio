@@ -182,7 +182,7 @@ export default function ProjectPanel() {
                                     }, 100);
                                 }} data-opacity={selectedProject()?.repo.name === project.repo.name && animationClass() != "leave" ? 0.005 : 1} >
                                     {project.logo?.startsWith("<") && <div class={styles.img} innerHTML={project?.logo}/>}
-                                    {project.logo?.startsWith("https") && <img class={styles.logoContainer} src={project.logo}></img>}
+                                    {project.logo?.startsWith("https") && <img class={styles.logoContainer} src={project.logo} />}
                                     {project.logo?.includes('"message": "Not Found"') && <div class={styles.noImg}><div>{project.repo.name}</div></div>}
                                 </li>
                             }}
