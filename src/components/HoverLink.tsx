@@ -5,12 +5,12 @@ export interface HoverLinkProps {
     href: string;
     name: string;
     imageUrl: string;
-    active: Accessor<boolean>;
+    active: boolean;
 }
 
 export default function HoverLink(props: HoverLinkProps) {
 
-    return <div class={styles.container} data-show={props.active()}>
-        <a href={props.href}><img src={props.imageUrl} />{props.name}</a>
+    return <div class={styles.container} data-show={props.active}>
+        <a href={props.href}>{props.imageUrl.startsWith("/src/") && <img src={props.imageUrl} />}{props.imageUrl.startsWith("<svg") && <div class={styles.logoContainer} innerHTML={props.imageUrl} />}{props.name}</a>
     </div>
 }

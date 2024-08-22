@@ -1,6 +1,9 @@
+@import "../pages/Homepage.module.scss";
+
 .container {
     position: relative;
-    h2 {
+    
+    .projectH2 {
         position: absolute;
         right: 16rem;
         top: 5rem;
@@ -48,15 +51,15 @@
     }
 
     .img {
-        width: 4em;
+        width: 15rem;
         height: auto;
     }
 
     .noImg {
         background: rgba(255, 225, 198, 0.845);
         border-radius: 0.6rem;
-        width: 4em;
-        height: 4em;
+        width: 15rem;
+        height: 15rem;
         
         div {
             display: flex;
@@ -65,7 +68,7 @@
             text-align: center;
             align-items: center;
             justify-content: center;
-            font-size: 0.9em;
+            font-size: 2rem;
             word-break: break-word;
         }
     }
@@ -116,21 +119,27 @@
     .selectedHead {
         display: flex;
         align-items: center;  // Vertically centers the logo with the text
-        padding: 0.6rem 0rem 0.8rem 0.6rem;
         border-bottom: rgba(245, 172, 172, 0.623) 0.2rem dashed;
 
+        & > * {
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            background: none;
+        }
+
         .logoContainer {
-            width: 3.5rem; // Adjust the width of the logo
-            height: 3.5rem; // Ensures that the logo is square, you can adjust the size as needed
-            margin-right: 0.8rem; // Adds space between the logo and the text
+            width: 3.5rem;
+            height: 3.5rem;
+            margin-right: 0.8rem;
             display: flex;
             justify-content: center;
             align-items: center;
             overflow: hidden;
     
             svg {
-                width: 100%; // Ensures the SVG scales to fit the container
-                height: 100%; // Ensures the SVG scales to fit the container
+                width: 100%;
+                height: 100%;
             }
         }
     }
@@ -145,5 +154,18 @@
             width: 95%;
             font-size: 1.5rem;
         }
+    }
+}
+
+@media (max-width: $mediaMaxWidth) {
+    .projectH2 {
+        right: 50% !important;
+        transform: rotate(0deg) translateX(50%) !important;
+    }
+}
+
+@media (max-width: $mediaMinWidth) {
+    .projectH2 {
+        font-size: 20vw !important;
     }
 }

@@ -56,7 +56,7 @@ export default function MusicPanel() {
 
     return (
         <div class={styles.container}>
-            <h2>MY MUSIC</h2>
+            <h2 class={styles.musicH2}>MY MUSIC</h2>
             <div class={styles.scroller}>
                 <ul class={isPaused() ? `${styles.songs} ${styles.paused}` : styles.songs}>
                     {tracks().map((track) => (

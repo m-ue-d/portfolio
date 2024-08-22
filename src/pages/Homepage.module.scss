@@ -1,3 +1,6 @@
+$mediaMaxWidth: 1600px;
+$mediaMinWidth: 700px;
+
 ::selection {
     color: black;
     background: rgb(255, 127, 76);
@@ -42,7 +45,6 @@
     justify-content: center;
     align-items: center;
     overflow: visible;
-    margin-bottom: 20rem;
     text-align: center;
 
     p {
@@ -86,6 +88,10 @@
     }
 }
 
+h2 {
+    text-align: center;
+}
+
 p {
     position: relative;
     margin: 0;
@@ -107,4 +113,11 @@ img {
 
 li {
     list-style: none;
+}
+
+@media (max-width: 1600px) {
+    h2 {
+        white-space: nowrap;
+        text-wrap: nowrap;
+    }
 }

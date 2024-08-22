@@ -1,0 +1,22 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    overflow: hidden;
+
+    p {
+        transform: none;
+    }
+
+    .link {
+        color: rgb(18, 18, 18);
+        text-decoration: underline;
+        font-size: 2rem;
+        letter-spacing: -0.14rem;
+        padding: 1rem;
+        
+        filter: drop-shadow(0 0 0.2rem rgba(0, 0, 0, 0.55));  
+    }
+}

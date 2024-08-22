@@ -2,44 +2,37 @@ import styles from './ProjectPanel.module.scss';
 import NoImage from '../assets/no-image-svgrepo-com.svg';
 import { For, Setter, Show, createSignal, onCleanup, onMount } from 'solid-js';
 import { Project } from '../model/project';
+import HoverLink from './HoverLink';
 
-//the following 29 lines of code were mostly taken from https://github.com/FabianHummel/Retro-Portfolio/commit/3374903ef0ef0ddbd761be5fbbdb80dbfe3c0710; thank you Fabi <3
+//the following 59 lines of code were slightly modified from https://github.com/FabianHummel/Retro-Portfolio/blob/master/src/pages/Github.tsx; thank you Fabi <3
 const username = "m-ue-d";
 const userEndpoint = "https://api.github.com/users";
 const repoEndpoint = "https://api.github.com/repos";
 
-async function fetchUser(name: string) {
-    const user = localStorage.getItem("user");
-    if(user)
-        return JSON.parse(user);
-    const response = await (await fetch(`${userEndpoint}/${name}`)).json();
-    localStorage.setItem("user", JSON.stringify(response));
-    return response;
+const lastUpdated = new Date(localStorage.getItem("github-last-updated") ?? 0);
+
+if (lastUpdated && new Date().getTime() - lastUpdated.getTime() < 1000 * 60 * 60) {
+    console.log("Using cached data.");
+    var reposCache = JSON.parse(window.localStorage.getItem("github-repos")!);
+} else {
+    console.log("Fetching new data.");
+    window.localStorage.setItem("github-last-updated", new Date().toISOString());
 }
 
 async function fetchRepos() {
-    const repos = localStorage.getItem("repos");
+    const repos = localStorage.getItem("github-repos");
     if(repos)
         return JSON.parse(repos);
     const response = await (await fetch(`${userEndpoint}/${username}/repos`)).json();
 
-    localStorage.setItem("repos", JSON.stringify(response));
-    return response;
-}
-
-async function fetchStarred() {
-    const starred = localStorage.getItem("starred");
-    if(starred)
-        return JSON.parse(starred);
-    const response = await (await fetch(`${userEndpoint}/${username}/starred`)).json();
-    localStorage.setItem("starred", JSON.stringify(response));
+    localStorage.setItem("github-repos", JSON.stringify(response));
     return response;
 }
 
 async function fetchRepoLogos(repos: any[]) {
     const logos: Record<string, string> = {};
     for (const repo of repos) {
-        const logo = localStorage.getItem(`${repo.name}-logo`);
+        const logo = localStorage.getItem(`github-${repo.name}-logo`);
         if (logo) {
             logos[repo.name] = logo;
         } else {
@@ -50,7 +43,7 @@ async function fetchRepoLogos(repos: any[]) {
                         'Content-Type': 'application/json',
                     },
                 })).text();
-                localStorage.setItem(`${repo.name}-logo`, response);
+                localStorage.setItem(`github-${repo.name}-logo`, response);
                 logos[repo.name] = response;
             } catch (error) {
                 console.error(`Failed to fetch logo for ${repo.name}:`, error);
@@ -60,16 +53,9 @@ async function fetchRepoLogos(repos: any[]) {
     return logos;
 }
 
-let user;
-let repos: any[];
-let starred;
-let logos: Record<string, string>;
-
-user = await fetchUser(username);
-repos = await fetchRepos();
-logos = await fetchRepoLogos(repos);
+let repos: any[] = reposCache || await fetchRepos();
+let logos = await fetchRepoLogos(repos);
 repos = repos.filter((r: { fork: any; }) => !r.fork);
-starred = await fetchStarred();
 
 export default function ProjectPanel() {
     const [projects, setProjects] = createSignal<Project[]>([]);
@@ -80,11 +66,13 @@ export default function ProjectPanel() {
 
     const calculatePosition = (index: number, total: number, time: number, opac: number) => {
         const sizeMult = 0.34;
-        const angle = (index / total) * 2 * Math.PI + time / 40000;
+        const angle = (index / total) * 2 * Math.PI + time / (1000 * projects().length);
         const radius = 30;
-        const x = sizeMult * radius * Math.cos(angle) * 2;
-        const y = sizeMult * radius * Math.sin(angle) * 0.4;
+        const xMult = screen.width<=700? 1.2 : 2;
+        const yMult = screen.width<=1200? 2 : 0.4;
         const zMult = 5;
+        const x = sizeMult * radius * Math.cos(angle) * xMult;
+        const y = sizeMult * radius * Math.sin(angle) * yMult;
         const z = sizeMult * Math.sin(angle) * zMult;
 
         const maxZ = 2 * zMult;
@@ -117,7 +105,7 @@ export default function ProjectPanel() {
 
     return (
         <div class={styles.container}>
-            <h2>MY PROJECTS</h2>
+            <h2 class={styles.projectH2}>MY PROJECTS</h2>
             {/* Currently Selected Project */}
             <Show when={selectedProject()}>
                 <div class={`${styles.selectedProject} ${styles[animationClass()]}`} ref={selectedRef} onClick={async (e) => {
@@ -130,10 +118,7 @@ export default function ProjectPanel() {
                         }, 1000);
                     }}>
                     <div class={styles.selectedHead}>
-                        <Show when={selectedProject()?.logo?.startsWith("<")}>
-                            <div class={styles.logoContainer} innerHTML={selectedProject()?.logo} />
-                        </Show>
-                        {selectedProject()?.repo.name}
+                        <HoverLink active={true} href={selectedProject()!.repo.html_url} name={selectedProject()!.name} imageUrl={selectedProject()!.logo ?? "<svg/>"} />
                     </div>
                     <div class={styles.selectedBody}>
                         <div class={styles.language}>{selectedProject()?.repo.language}</div>
@@ -146,18 +131,19 @@ export default function ProjectPanel() {
             <div class={styles.wrapper}>
                 <ul class={styles.projects}>
                     <For each={projects()}>{(project, idx) => {
-                        return <li 
-                            onMouseDown={(e) => {
-                                e.stopPropagation();
-                                setSelectedProject(project);
-                                selectedRef.style.pointerEvents = "auto";
-                                setTimeout(() => {
-                                    setAnimationClass("enter");
-                                }, 100);
-                            }} data-opacity={selectedProject()?.repo.name === project.repo.name && animationClass() != "leave" ? 0.005 : 1} >
-                                {project.logo?.startsWith("<")? <div class={styles.img} innerHTML={project?.logo}/> : <div class={styles.noImg}><div>{project.repo.name}</div></div>}
-                            </li>
-                        }}
+                        if(project.repo.topics.includes("m-ue-d"))
+                            return <li 
+                                onMouseDown={(e) => {
+                                    e.stopPropagation();
+                                    setSelectedProject(project);
+                                    selectedRef.style.pointerEvents = "auto";
+                                    setTimeout(() => {
+                                        setAnimationClass("enter");
+                                    }, 100);
+                                }} data-opacity={selectedProject()?.repo.name === project.repo.name && animationClass() != "leave" ? 0.005 : 1} >
+                                    {project.logo?.startsWith("<")? <div class={styles.img} innerHTML={project?.logo}/> : <div class={styles.noImg}><div>{project.repo.name}</div></div>}
+                                </li>
+                            }}
                     </For>
                 </ul>
             </div>

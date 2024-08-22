@@ -51,12 +51,11 @@ export default function Homepage(){
             <p>Software Engineer and Music Producer</p>
             <div 
                 class={styles.imgWrapper} 
-                ref={imgWrapperRef}
-            >
+                ref={imgWrapperRef}>
                 <img draggable="false" src={logo} alt="My Logo" />
                 <ul class={styles.hoverWrapper}>
-                    <li><HoverLink imageUrl={Github} active={showLinks} href="https://github.com/m-ue-d" name="github/m-ue-d"/></li>
-                    <li><HoverLink imageUrl={SoundCloud} active={showLinks} href="https://soundcloud.com/m-ue-d" name="soundcloud/m-ue-d"/></li>
+                    <li><HoverLink imageUrl={Github} active={showLinks()} href="https://github.com/m-ue-d" name="github/m-ue-d"/></li>
+                    <li><HoverLink imageUrl={SoundCloud} active={showLinks()} href="https://soundcloud.com/m-ue-d" name="soundcloud/m-ue-d"/></li>
                 </ul>
             </div>
         </div>

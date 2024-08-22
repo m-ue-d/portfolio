@@ -1,8 +1,10 @@
+@import "../pages/Homepage.module.scss";
+
 .container {
     position: relative;
-    margin-top: 30rem;
+    margin-top: 10rem;
 
-    h2 {
+    .musicH2 {
         color: #fff0e1;
         position: absolute;
         left: 16rem;
@@ -62,5 +64,18 @@
     }
     100% {
         transform: translateX(-100%);
+    }
+}
+
+@media (max-width: $mediaMaxWidth) {
+    .musicH2 {
+        left: 50% !important;
+        transform: rotate(0deg) translateX(-50%) !important;
+    }
+}
+
+@media (max-width: $mediaMinWidth) {
+    .musicH2 {
+        font-size: 20vw !important;
     }
 }
