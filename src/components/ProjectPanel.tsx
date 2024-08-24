@@ -20,11 +20,7 @@ if (lastUpdated && new Date().getTime() - lastUpdated.getTime() < 1000 * 60 * 60
 }
 
 async function fetchRepos() {
-    const repos = localStorage.getItem("github-repos");
-    if(repos)
-        return JSON.parse(repos);
     const response = await (await fetch(`${userEndpoint}/${username}/repos`)).json();
-
     localStorage.setItem("github-repos", JSON.stringify(response));
     return response;
 }
@@ -43,7 +39,7 @@ async function fetchRepoLogos(repos: any[]) {
                         'Content-Type': 'application/json',
                     },
                 })).text();
-                if(response.includes('"message": "Not Found"') && await (await fetch(`${repoEndpoint}/${username}/${repo.name}/contents/logo.png`, {headers: {'Accept': 'application/vnd.github.v3.raw','Content-Type': 'application/json',},})).text()){
+                if(response.includes('"message": "Not Found"') && !(await (await fetch(`${repoEndpoint}/${username}/${repo.name}/contents/logo.png`, {headers: {'Accept': 'application/vnd.github.v3.raw','Content-Type': 'application/json',},})).text()).includes('"message": "Not Found"')) {
                     response = `https://github.com/${username}/${repo.name}/blob/${repo.default_branch}/logo.png?raw=true`;
                 }
                 localStorage.setItem(`github-${repo.name}-logo`, response);
